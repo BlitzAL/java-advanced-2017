@@ -65,35 +65,4 @@ public class WebCrawler implements Crawler {
             e.printStackTrace();
         }
     }
-
-    public static void main(String... args) throws Exception {
-          int D = 1,
-          dwnlrds = Integer.MAX_VALUE,
-          extractors = Integer.MAX_VALUE,
-          perHost = Integer.MAX_VALUE;
-        if (args.length < 1) {
-            throw new RuntimeException("Url is missing in command-line arguments.");
-        }
-        String url = args[0];
-        for (int i = 1; i < args.length && i < 5; i++) {
-
-            int n = Integer.valueOf(args[i]);
-            if (i == 1) D = n;
-            else break;
-            if (i == 2) dwnlrds = n;
-            else break;
-            if (i == 3) extractors = n;
-            else break;
-            if (i == 4) perHost = n;
-            else break;
-        }
-        Result result;
-        try (Crawler crawler = new WebCrawler(new CachingDownloader(), dwnlrds, extractors, perHost)) {
-            result = crawler.download(url, D);
-        }
-        if (Objects.nonNull(result)) {
-            result.getDownloaded().forEach(System.out::println);
-            result.getErrors().forEach((k, v) -> System.err.printf("Error on url %s: %s\n", k, String.valueOf(v)));
-        }
-    }
 }
